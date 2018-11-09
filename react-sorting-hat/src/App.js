@@ -36,16 +36,10 @@ class App extends Component {
 
   }
 
-  onTextDone = () => {
-
-    
-
-  }
-
   render() {
     return (
       <>
-        <SortingHat text={this.state.sortingHatText} updateFunction={this.updateText} finishFunction={this.onTextDone}/>
+        <SortingHat text={this.state.sortingHatText} updateFunction={this.updateText}/>
         <OptionButtonContainer />
       </>
     );

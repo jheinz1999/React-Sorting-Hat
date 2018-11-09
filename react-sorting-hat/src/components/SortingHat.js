@@ -39,9 +39,6 @@ export default class SortingHat extends React.Component {
 
   componentDidUpdate() {
 
-    if (this.state.doneWriting && this.props.text == this.state.currentText)
-      this.props.finishFunction();
-
     if (this.state.doneWriting && this.props.text != this.state.currentText)
       this.setState({doneWriting: false, currentText: ''}, () => this.updateText(0));
 
