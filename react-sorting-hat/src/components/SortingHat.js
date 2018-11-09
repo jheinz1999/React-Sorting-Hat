@@ -39,6 +39,9 @@ export default class SortingHat extends React.Component {
 
   componentDidUpdate() {
 
+    if (this.state.doneWriting && this.props.text == this.state.currentText)
+      this.props.finishFunction();
+
     if (this.state.doneWriting && this.props.text != this.state.currentText)
       this.setState({doneWriting: false, currentText: ''}, () => this.updateText(0));
 
@@ -48,7 +51,12 @@ export default class SortingHat extends React.Component {
     if (this.state.doneWriting && this.state.currentText === 'Alright, here goes nothing.') {
       this.setState({doneWriting: false}, () => {
         TweenMax.to('.hat', 1, {yPercent: '-20%'});
-        TweenMax.to('.speech-bubble', 1, {yPercent: '0%', xPercent: '-10%', onComplete: this.props.updateFunction});
+        TweenMax.to('.speech-bubble', 1, {yPercent: '0%', xPercent: '-10%', onComplete: () => {
+          this.setState({doneWriting: true, currentText: ''}, () => {
+            this.props.updateFunction();
+            this.setState({buttonText: 'invisible'});
+          });
+        }});
       });
     }
 
@@ -68,7 +76,7 @@ export default class SortingHat extends React.Component {
           this.updateText(num + 1)
         });
 
-      }, 100);
+      }, 75);
 
     }
 
@@ -89,7 +97,7 @@ export default class SortingHat extends React.Component {
 
         <img className='hat' src="img/sortinghat.png"></img>
 
-        <button className={this.state.doneWriting ? 'visible' : null} onClick={this.props.updateFunction}>{this.state.buttonText}</button>
+        <button className={this.state.doneWriting && this.state.buttonText != 'invisible' ? 'visible' : null} onClick={this.props.updateFunction}>{this.state.buttonText}</button>
 
       </div>
 
